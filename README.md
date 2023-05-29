@@ -26,3 +26,12 @@ Debug.Log and Color32 are not defined, so define them in AiriaUnityMigrate.cs.
 
 ## Result
 
+Read input.jpg and display the inference result of yolox.
+
+![demo.png](demo.png)
+
+## Architecture
+
+The inference code is below. Usage is the same as the Unity version.
+
+- [Form1.cs](/ailia-csharp/Form1.cs)
