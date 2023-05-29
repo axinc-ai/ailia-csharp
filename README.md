@@ -10,7 +10,7 @@ This is a sample to execute ailia's Predict API using C#.
 ## Architecture
 
 Unity's cs file can be used from Visual Studio just by commenting out import UnityEngine.
-Debug.Log and Color32 are not defined, so define them in AiriaUnityMigrate.cs.
+Debug.Log and Color32 are not defined, so define them in AiriaMigrate.cs.
 
 ## Build
 
