@@ -1,6 +1,6 @@
 # ailia-csharp
 
-This is a sample to execute ailia's Predict API using C#.
+This is a sample to execute ailia's Inference API using C#.
 
 ## Requirements
 
