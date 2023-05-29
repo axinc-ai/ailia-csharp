@@ -34,4 +34,4 @@ Read input.jpg and display the inference result of yolox.
 
 The inference code is below. Usage is the same as the Unity version.
 
-- [Form1.cs](/ailia-csharp/Form1.cs)
+- [Form1.cs](/ailia-csharp/ailia-csharp/Form1.cs)
