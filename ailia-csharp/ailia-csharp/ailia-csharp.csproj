@@ -66,9 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ailia.cs" />
-    <Compile Include="AiliaDebug.cs" />
-    <Compile Include="AiliaModel.cs" />
+    <Compile Include="ailia\Ailia.cs" />
+    <Compile Include="ailia\AiliaDetector.cs" />
+    <Compile Include="ailia\AiliaDetectorModel.cs" />
+    <Compile Include="ailia\AiliaFormat.cs" />
+    <Compile Include="ailia\AiliaMigration.cs" />
+    <Compile Include="ailia\AiliaModel.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +92,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="assets\yolox_tiny.opt.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -101,6 +107,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\input.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

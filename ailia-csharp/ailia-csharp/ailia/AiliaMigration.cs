@@ -1,15 +1,15 @@
 /**
 * \~japanese
 * @file
-* @brief AILIA  Debug Class
+* @brief AILIA  Unity Compatble Class
 * @author AXELL Corporation
-* @date  June 29, 2023
+* @date  May 29, 2023
 * 
 * \~english
 * @file
-* @brief AILIA Debug Class
+* @brief AILIA Unity Compatble Class
 * @author AXELL Corporation
-* @date  June 29, 2023
+* @date  May 29, 2023
 */
 
 using System.Collections;
@@ -29,4 +29,13 @@ public class Debug
     {
         Console.WriteLine(text);
     }
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct Color32
+{
+    public byte a;
+    public byte r;
+    public byte g;
+    public byte b;
 }
