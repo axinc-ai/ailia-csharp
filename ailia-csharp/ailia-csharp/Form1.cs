@@ -24,21 +24,12 @@ namespace ailia_csharp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            AiliaModel net = new AiliaModel();
-            int count = net.GetEnvironmentCount();
-            Console.WriteLine("Environment count " + count);
-            string asset_path = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-            Console.WriteLine(asset_path);
-            
-            AiliaDetectorModel ailia_detector = new AiliaDetectorModel();
-            uint category_n = 80;
-            //ailia_detector.Environment(Ailia.AILIA_ENVIRONMENT_TYPE_GPU);
-            ailia_detector.Settings(AiliaFormat.AILIA_NETWORK_IMAGE_FORMAT_BGR, AiliaFormat.AILIA_NETWORK_IMAGE_CHANNEL_FIRST, AiliaFormat.AILIA_NETWORK_IMAGE_RANGE_UNSIGNED_INT8, AiliaDetector.AILIA_DETECTOR_ALGORITHM_YOLOX, category_n, AiliaDetector.AILIA_DETECTOR_FLAG_NORMAL);
-            ailia_detector.OpenFile(null, asset_path + "/assets/yolox_tiny.opt.onnx");
+            Inference();
+        }
 
-            string fileName = asset_path + "/assets/input.jpg";
+        private Bitmap LoadBMP(string fileName)
+        {
             Bitmap bmp;
-
             using (var fs = new System.IO.FileStream(
             fileName,
             System.IO.FileMode.Open,
@@ -46,12 +37,21 @@ namespace ailia_csharp
             {
                 bmp = new Bitmap(fs);
             }
+            return bmp;
+        }
 
+        private System.Drawing.Imaging.BitmapData GetBmpData(Bitmap bmp)
+        {
             // Lock the bitmap's bits.  
             Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
             System.Drawing.Imaging.BitmapData bmpData =
                 bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
                 bmp.PixelFormat);
+            return bmpData;
+        }
+
+        private byte[] GetPixels(System.Drawing.Imaging.BitmapData bmpData, Bitmap bmp)
+        {
 
             // Get the address of the first line.
             IntPtr ptr = bmpData.Scan0;
@@ -60,13 +60,31 @@ namespace ailia_csharp
             int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
             byte[] rgbValues = new byte[bytes];
 
-            Console.WriteLine("Input Image : " + bmpData.Width+"x"+bmpData.Height+" stride "+bmpData.Stride);
-
             // Copy the RGB values into the array.
             System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, 0, bytes);
+            return rgbValues;
+        }
 
-            pictureBox1.Image = bmp;
+        private void PutPixels(Bitmap bmp, System.Drawing.Imaging.BitmapData bmpData, byte[] rgbValues)
+        {
+            // Get the address of the first line.
+            IntPtr ptr = bmpData.Scan0;
 
+            // Declare an array to hold the bytes of the bitmap.
+            int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
+
+            // Copy the RGB values back to the bitmap
+            System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
+        }
+
+        private void FreeBitmapData(Bitmap bmp, System.Drawing.Imaging.BitmapData bmpData) { 
+                        // Unlock the bits.
+            bmp.UnlockBits(bmpData);
+
+        }
+
+        private Color32[] ConvertBitmapDataToColor32(Bitmap bmp, System.Drawing.Imaging.BitmapData bmpData, byte[] rgbValues)
+        {
             Color32[] camera = new Color32[bmp.Width * bmp.Height];
             int channels = bmpData.Stride / bmpData.Width;
             for (int i = 0; i < camera.Length; i++)
@@ -83,6 +101,36 @@ namespace ailia_csharp
                     camera[i].a = 255;
                 }
             }
+            return camera;
+        }
+
+
+        private void Inference()
+        {
+            AiliaModel net = new AiliaModel();
+            string asset_path = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            Console.WriteLine(asset_path);
+            
+            AiliaDetectorModel ailia_detector = new AiliaDetectorModel();
+            uint category_n = 80;
+            //ailia_detector.Environment(Ailia.AILIA_ENVIRONMENT_TYPE_GPU);
+            ailia_detector.Settings(AiliaFormat.AILIA_NETWORK_IMAGE_FORMAT_BGR, AiliaFormat.AILIA_NETWORK_IMAGE_CHANNEL_FIRST, AiliaFormat.AILIA_NETWORK_IMAGE_RANGE_UNSIGNED_INT8, AiliaDetector.AILIA_DETECTOR_ALGORITHM_YOLOX, category_n, AiliaDetector.AILIA_DETECTOR_FLAG_NORMAL);
+            ailia_detector.OpenFile(null, asset_path + "/assets/yolox_tiny.opt.onnx");
+
+            string fileName = asset_path + "/assets/input.jpg";
+            Bitmap bmp = LoadBMP(fileName);
+            System.Drawing.Imaging.BitmapData bmpData = GetBmpData(bmp);
+            byte[] rgbValues = GetPixels(bmpData, bmp);
+            int channels = bmpData.Stride / bmpData.Width;
+
+            Color32[] camera = ConvertBitmapDataToColor32(bmp, bmpData, rgbValues);
+
+
+            Console.WriteLine("Input Image : " + bmpData.Width + "x" + bmpData.Height + " stride " + bmpData.Stride);
+
+            pictureBox1.Image = bmp;
+
+
 
             //Detection
             float threshold = 0.2f;
@@ -90,6 +138,7 @@ namespace ailia_csharp
             long start_time = DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond;
             List<AiliaDetector.AILIADetectorObject> list = ailia_detector.ComputeFromImage(camera, bmp.Width, bmp.Height, threshold, iou);
             long end_time = DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond;
+            Console.WriteLine("Inference Time : " + (end_time - start_time) + " ms");
 
             //Error
             if (list == null)
@@ -101,23 +150,14 @@ namespace ailia_csharp
             //Display detected object
             foreach (AiliaDetector.AILIADetectorObject obj in list)
             {
-                Console.WriteLine("Detected Object " + obj.prob);
+                Console.WriteLine("Detected Object category " +obj.category + " prob "+ obj.prob);
                 DisplayDetectedObject(obj, rgbValues, bmp.Width, bmp.Height, channels);
             }
 
-            // Copy the RGB values back to the bitmap
-            System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
-
-            // Unlock the bits.
-            bmp.UnlockBits(bmpData);
-
+            PutPixels(bmp, bmpData, rgbValues);
+            FreeBitmapData(bmp, bmpData);
 
             ailia_detector.Close();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void DisplayDetectedObject(AiliaDetector.AILIADetectorObject box,byte [] camera,int tex_width,int tex_height, int tex_channels){
@@ -144,6 +184,11 @@ namespace ailia_csharp
                     }
                 }
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
