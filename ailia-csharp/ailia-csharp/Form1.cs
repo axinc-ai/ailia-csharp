@@ -107,32 +107,28 @@ namespace ailia_csharp
 
         private void Inference()
         {
-            AiliaModel net = new AiliaModel();
             string asset_path = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-            Console.WriteLine(asset_path);
-            
+
+            // Initialize ailia instance
             AiliaDetectorModel ailia_detector = new AiliaDetectorModel();
-            uint category_n = 80;
             //ailia_detector.Environment(Ailia.AILIA_ENVIRONMENT_TYPE_GPU);
+
+            // Open yolox model            
+            uint category_n = 80;
             ailia_detector.Settings(AiliaFormat.AILIA_NETWORK_IMAGE_FORMAT_BGR, AiliaFormat.AILIA_NETWORK_IMAGE_CHANNEL_FIRST, AiliaFormat.AILIA_NETWORK_IMAGE_RANGE_UNSIGNED_INT8, AiliaDetector.AILIA_DETECTOR_ALGORITHM_YOLOX, category_n, AiliaDetector.AILIA_DETECTOR_FLAG_NORMAL);
             ailia_detector.OpenFile(null, asset_path + "/assets/yolox_tiny.opt.onnx");
 
+            // Open test image
             string fileName = asset_path + "/assets/input.jpg";
             Bitmap bmp = LoadBMP(fileName);
             System.Drawing.Imaging.BitmapData bmpData = GetBmpData(bmp);
             byte[] rgbValues = GetPixels(bmpData, bmp);
             int channels = bmpData.Stride / bmpData.Width;
-
             Color32[] camera = ConvertBitmapDataToColor32(bmp, bmpData, rgbValues);
-
-
             Console.WriteLine("Input Image : " + bmpData.Width + "x" + bmpData.Height + " stride " + bmpData.Stride);
-
             pictureBox1.Image = bmp;
 
-
-
-            //Detection
+            // Inference
             float threshold = 0.2f;
             float iou = 0.25f;
             long start_time = DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond;
@@ -147,16 +143,18 @@ namespace ailia_csharp
                 return;
             }
 
-            //Display detected object
+            // Display detected object
             foreach (AiliaDetector.AILIADetectorObject obj in list)
             {
                 Console.WriteLine("Detected Object category " +obj.category + " prob "+ obj.prob);
                 DisplayDetectedObject(obj, rgbValues, bmp.Width, bmp.Height, channels);
             }
 
+            // Apply results to bmp
             PutPixels(bmp, bmpData, rgbValues);
             FreeBitmapData(bmp, bmpData);
 
+            // Release instance
             ailia_detector.Close();
         }
 
@@ -180,7 +178,7 @@ namespace ailia_csharp
                 {
                     if (y >= 0 && y < tex_height && x >= 0 && x < tex_width)
                     {
-                        camera[y * tex_channels * tex_width + x*tex_channels + 2] = 255;
+                        camera[y * tex_channels * tex_width + x*tex_channels + 2] = 255; // fill red
                     }
                 }
             }
