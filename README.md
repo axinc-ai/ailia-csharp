@@ -44,4 +44,4 @@ The inference code is below. Usage is the same as the Unity version.
 
 - [Form1.cs](/ailia-csharp/ailia-csharp/Form1.cs)
 - [AiliaYoloxSample.cs](/ailia-csharp/ailia-csharp/yolox/AiliaYoloxSample.cs)
-- [AiliaFacemeshSample.cs](/ailia-csharp/ailia-csharp/facemesh/AiliaFacemeshSample.cs)
+- [AiliaFaceMeshSample.cs](/ailia-csharp/ailia-csharp/facemesh/AiliaFaceMeshSample.cs)
