@@ -21,17 +21,25 @@ Debug.Log and Color32 are not defined, so define them in AiriaMigrate.cs.
 ## Run
 
 - Manually place `ailia.dll` to `/ailia-csharp/ailia-csharp/bin/x64/Debug`.
-- `yolox_tiny.opt.onnx` and `input.jpg` are automatically place to `/ailia-csharp/ailia-csharp/bin/x64/Debug` on build process.
+- `*.onnx` and `*.jpg` are automatically place to `/ailia-csharp/ailia-csharp/bin/x64/Debug` on build process.
 - Run.
 
 ## Result
 
+### yolox
+
 Read input.jpg and display the inference result of yolox.
 
 ![demo.png](demo.png)
+
+### facemesh
+
+Read facemesh.jpg and display the inference result of facemesh.
 
 ## Architecture
 
 The inference code is below. Usage is the same as the Unity version.
 
 - [Form1.cs](/ailia-csharp/ailia-csharp/Form1.cs)
+- [AiliaYoloxSample.cs](/ailia-csharp/ailia-csharp/yolox/AiliaYoloxSample.cs)
+- [AiliaFacemeshSample.cs](/ailia-csharp/ailia-csharp/facemesh/AiliaFacemeshSample.cs)
