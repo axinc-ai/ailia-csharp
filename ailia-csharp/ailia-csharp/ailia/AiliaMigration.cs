@@ -39,3 +39,36 @@ public struct Color32
     public byte g;
     public byte b;
 }
+
+public class Vector2
+{
+    public float x;
+    public float y;
+
+    public Vector2(float nx, float ny)
+    {
+        this.x = nx;
+        this.y = ny;
+    }
+}
+
+public class Mathf
+{
+    public static float Clamp(float v, float min, float max)
+    {
+        if (v < min)
+        {
+            v = min;
+        }
+        if (v > max)
+        {
+            v = max;
+        }
+        return v;
+    }
+
+    public static float Exp(float v)
+    {
+        return (float)Math.Exp((double)v);
+    }
+}

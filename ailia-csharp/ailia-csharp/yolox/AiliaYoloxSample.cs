@@ -3,13 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace ailia_csharp
 {
@@ -31,7 +25,7 @@ namespace ailia_csharp
 		"scissors", "teddy bear", "hair drier", "toothbrush"
 		};
 
-		public void Infer(Color32[] camera, Bitmap bmp, int width, int height, int channels, string asset_path)
+		public bool Infer(Color32[] camera, Bitmap bmp, int width, int height, int channels, string asset_path)
 		{
 			// Initialize ailia instance
 			AiliaDetectorModel ailia_detector = new AiliaDetectorModel();
@@ -43,7 +37,12 @@ namespace ailia_csharp
 			// Open yolox model            
 			uint category_n = 80;
 			ailia_detector.Settings(AiliaFormat.AILIA_NETWORK_IMAGE_FORMAT_BGR, AiliaFormat.AILIA_NETWORK_IMAGE_CHANNEL_FIRST, AiliaFormat.AILIA_NETWORK_IMAGE_RANGE_UNSIGNED_INT8, AiliaDetector.AILIA_DETECTOR_ALGORITHM_YOLOX, category_n, AiliaDetector.AILIA_DETECTOR_FLAG_NORMAL);
-			ailia_detector.OpenFile(null, asset_path + "/assets/yolox_tiny.opt.onnx");
+			bool status = ailia_detector.OpenFile(null, asset_path + "/assets/yolox_tiny.opt.onnx");
+			if (!status)
+            {
+				Console.WriteLine("Model open error");
+				return false;
+            }
 
 			// Inference
 			float threshold = 0.2f;
@@ -57,7 +56,7 @@ namespace ailia_csharp
 			if (list == null)
 			{
 				Console.WriteLine("Inference error");
-				return;
+				return false;
 			}
 
 			// Display detected object
@@ -70,6 +69,8 @@ namespace ailia_csharp
 
 			// Release instance
 			ailia_detector.Close();
+
+			return true;
 		}
 
 		private void DisplayDetectedObject(AiliaDetector.AILIADetectorObject box, Graphics g,int tex_width,int tex_height, int tex_channels){

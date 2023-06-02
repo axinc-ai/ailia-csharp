@@ -24,7 +24,12 @@ namespace ailia_csharp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Inference();
+            InferenceYolox();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            InferenceFacemesh();
         }
 
         private Bitmap LoadBMP(string fileName)
@@ -106,7 +111,7 @@ namespace ailia_csharp
             return camera;
         }
 
-        private void Inference()
+        private void InferenceYolox()
         {
             string asset_path = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
             string fileName = asset_path + "/assets/input.jpg";
@@ -123,6 +128,25 @@ namespace ailia_csharp
 
             AiliaYoloxSample yolox = new AiliaYoloxSample();
             yolox.Infer(camera, bmp, bmpData.Width, bmpData.Height, channels, asset_path);
+        }
+
+        private void InferenceFacemesh()
+        {
+            string asset_path = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            string fileName = asset_path + "/assets/facemesh.jpg";
+
+            // Open test image
+            Bitmap bmp = LoadBMP(fileName);
+            System.Drawing.Imaging.BitmapData bmpData = GetBmpData(bmp);
+            byte[] rgbValues = GetPixels(bmpData, bmp);
+            int channels = bmpData.Stride / bmpData.Width;
+            Color32[] camera = ConvertBitmapDataToColor32(bmp, bmpData, rgbValues);
+            Console.WriteLine("Input Image : " + bmpData.Width + "x" + bmpData.Height + " stride " + bmpData.Stride);
+            FreeBitmapData(bmp, bmpData);
+            pictureBox1.Image = bmp;
+
+            AiliaFaceMeshSample facemesh = new AiliaFaceMeshSample();
+            facemesh.Infer(camera, bmp, bmpData.Width, bmpData.Height, channels, asset_path);
         }
 
         private void label1_Click(object sender, EventArgs e)

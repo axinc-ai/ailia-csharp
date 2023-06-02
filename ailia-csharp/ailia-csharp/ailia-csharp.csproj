@@ -78,6 +78,10 @@
     <Compile Include="ailia\AiliaModel.cs" />
     <Compile Include="ailia\AiliaPoseEstimator.cs" />
     <Compile Include="ailia\AiliaPoseEstimatorModel.cs" />
+    <Compile Include="facemesh\AiliaBlazeface.cs" />
+    <Compile Include="facemesh\AiliaBlazefaceAnchors.cs" />
+    <Compile Include="facemesh\AiliaFaceMesh.cs" />
+    <Compile Include="facemesh\AiliaFaceMeshSample.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
