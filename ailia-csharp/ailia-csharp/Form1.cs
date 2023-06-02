@@ -67,45 +67,35 @@ namespace ailia_csharp
 
             // Copy the RGB values into the array.
             System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, 0, bytes);
+
+            // Unlock the bits.
+            bmp.UnlockBits(bmpData);
+
             return rgbValues;
         }
 
-        /*
-        private void PutPixels(Bitmap bmp, System.Drawing.Imaging.BitmapData bmpData, byte[] rgbValues)
-        {
-            // Get the address of the first line.
-            IntPtr ptr = bmpData.Scan0;
-
-            // Declare an array to hold the bytes of the bitmap.
-            int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
-
-            // Copy the RGB values back to the bitmap
-            System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
-        }
-        */
-
-        private void FreeBitmapData(Bitmap bmp, System.Drawing.Imaging.BitmapData bmpData) { 
-                        // Unlock the bits.
-            bmp.UnlockBits(bmpData);
-
-        }
 
         private Color32[] ConvertBitmapDataToColor32(Bitmap bmp, System.Drawing.Imaging.BitmapData bmpData, byte[] rgbValues)
         {
             Color32[] camera = new Color32[bmp.Width * bmp.Height];
             int channels = bmpData.Stride / bmpData.Width;
-            for (int i = 0; i < camera.Length; i++)
+            for (int y = 0; y < bmp.Height; y++)
             {
-                camera[i].b = rgbValues[0 + i * channels];
-                camera[i].g = rgbValues[1 + i * channels];
-                camera[i].r = rgbValues[2 + i * channels];
-                if (channels == 4)
+                for (int x = 0; x < bmp.Width; x++)
                 {
-                    camera[i].a = rgbValues[3 + i * channels];
-                }
-                else
-                {
-                    camera[i].a = 255;
+                    int src_i = y * bmp.Width + x; // T2B
+                    int dst_i = (bmp.Height - 1 - y) * bmp.Width + x; // Unity B2T
+                    camera[dst_i].b = rgbValues[0 + src_i * channels];
+                    camera[dst_i].g = rgbValues[1 + src_i * channels];
+                    camera[dst_i].r = rgbValues[2 + src_i * channels];
+                    if (channels == 4)
+                    {
+                        camera[dst_i].a = rgbValues[3 + src_i * channels];
+                    }
+                    else
+                    {
+                        camera[dst_i].a = 255;
+                    }
                 }
             }
             return camera;
@@ -114,7 +104,7 @@ namespace ailia_csharp
         private void InferenceYolox()
         {
             string asset_path = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-            string fileName = asset_path + "/assets/input.jpg";
+            string fileName = asset_path + "/assets/yolox.jpg";
 
             // Open test image
             Bitmap bmp = LoadBMP(fileName);
@@ -123,7 +113,6 @@ namespace ailia_csharp
             int channels = bmpData.Stride / bmpData.Width;
             Color32[] camera = ConvertBitmapDataToColor32(bmp, bmpData, rgbValues);
             Console.WriteLine("Input Image : " + bmpData.Width + "x" + bmpData.Height + " stride " + bmpData.Stride);
-            FreeBitmapData(bmp, bmpData);
             pictureBox1.Image = bmp;
 
             AiliaYoloxSample yolox = new AiliaYoloxSample();
@@ -142,7 +131,6 @@ namespace ailia_csharp
             int channels = bmpData.Stride / bmpData.Width;
             Color32[] camera = ConvertBitmapDataToColor32(bmp, bmpData, rgbValues);
             Console.WriteLine("Input Image : " + bmpData.Width + "x" + bmpData.Height + " stride " + bmpData.Stride);
-            FreeBitmapData(bmp, bmpData);
             pictureBox1.Image = bmp;
 
             AiliaFaceMeshSample facemesh = new AiliaFaceMeshSample();

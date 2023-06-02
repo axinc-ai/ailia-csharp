@@ -103,6 +103,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="assets\blazeface.opt.onnx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="assets\facemesh_constantpad2d.opt.onnx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -126,7 +129,7 @@
     <Content Include="assets\facemesh.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\input.jpg">
+    <Content Include="assets\yolox.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

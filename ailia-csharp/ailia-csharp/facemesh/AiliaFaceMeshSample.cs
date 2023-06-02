@@ -24,14 +24,16 @@ namespace ailia_csharp
 				ailia_face_detector.Environment(Ailia.AILIA_ENVIRONMENT_TYPE_GPU);
 				ailia_face_recognizer.Environment(Ailia.AILIA_ENVIRONMENT_TYPE_GPU);
 			}
-			bool status = ailia_face_detector.OpenFile(null, asset_path + "/blazeface.opt.onnx");
-			if (status)
-			{
-				status = ailia_face_recognizer.OpenFile(null, asset_path + "/facemesh_constantpad2d.opt.onnx");
-			}
+			bool status = ailia_face_detector.OpenFile(null, asset_path + "/assets/blazeface.opt.onnx");
 			if (!status)
 			{
-				Console.WriteLine("Model open error");
+				Console.WriteLine("Model open error blazeface");
+				return false;
+			}
+			status = ailia_face_recognizer.OpenFile(null, asset_path + "/assets/facemesh_constantpad2d.opt.onnx");
+			if (!status)
+			{
+				Console.WriteLine("Model open error facemesh");
 				return false;
 			}
 
@@ -85,7 +87,7 @@ namespace ailia_csharp
 
 		public void DrawRect2D(Graphics g, int x, int y, int w, int h, int tex_width, int tex_height)
 		{
-			Rectangle rect = new Rectangle(x, y, x + w, y + h);
+			Rectangle rect = new Rectangle(x, y, w, h);
 			Pen whitePen = new Pen(Brushes.White);
 			whitePen.Width = 2.0F;
 			g.DrawRectangle(whitePen, rect);

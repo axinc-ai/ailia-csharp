@@ -48,7 +48,7 @@ namespace ailia_csharp
 			float threshold = 0.2f;
 			float iou = 0.25f;
 			long start_time = DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond;
-			List<AiliaDetector.AILIADetectorObject> list = ailia_detector.ComputeFromImage(camera, width, height, threshold, iou);
+			List<AiliaDetector.AILIADetectorObject> list = ailia_detector.ComputeFromImageB2T(camera, width, height, threshold, iou);
 			long end_time = DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond;
 			Console.WriteLine("Inference Time : " + (end_time - start_time) + " ms");
 

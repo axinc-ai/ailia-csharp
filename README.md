@@ -10,7 +10,7 @@ This is a sample to execute ailia's Inference API using C#.
 ## Architecture
 
 Unity's cs file can be used from Visual Studio just by commenting out import UnityEngine.
-Debug.Log and Color32 are not defined, so define them in AiriaMigrate.cs.
+Debug.Log, Color32, Vactor2, Mathf are not defined, so define them in [AiriaMigration.cs](/ailia-csharp/ailia-csharp/ailia/AiliaMigration.cs).
 
 ## Build
 
@@ -28,13 +28,15 @@ Debug.Log and Color32 are not defined, so define them in AiriaMigrate.cs.
 
 ### yolox
 
-Read input.jpg and display the inference result of yolox.
+Read yolox.jpg and display the inference result of yolox.
 
-![demo.png](demo.png)
+![yolox.png](yolox.png)
 
 ### facemesh
 
 Read facemesh.jpg and display the inference result of facemesh.
+
+![facemesh.png](facemesh.png)
 
 ## Architecture
 
