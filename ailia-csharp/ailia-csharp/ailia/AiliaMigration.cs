@@ -18,57 +18,60 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-public class Debug
+namespace UnityEngine
 {
-    public static void Log(string text)
+    public class Debug
     {
-        Console.WriteLine(text);
-    }
-
-    public static void LogError(string text)
-    {
-        Console.WriteLine(text);
-    }
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public struct Color32
-{
-    public byte a;
-    public byte r;
-    public byte g;
-    public byte b;
-}
-
-public class Vector2
-{
-    public float x;
-    public float y;
-
-    public Vector2(float nx, float ny)
-    {
-        this.x = nx;
-        this.y = ny;
-    }
-}
-
-public class Mathf
-{
-    public static float Clamp(float v, float min, float max)
-    {
-        if (v < min)
+        public static void Log(string text)
         {
-            v = min;
+            Console.WriteLine(text);
         }
-        if (v > max)
+
+        public static void LogError(string text)
         {
-            v = max;
+            Console.WriteLine(text);
         }
-        return v;
     }
 
-    public static float Exp(float v)
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Color32
     {
-        return (float)Math.Exp((double)v);
+        public byte a;
+        public byte r;
+        public byte g;
+        public byte b;
     }
-}
+
+    public class Vector2
+    {
+        public float x;
+        public float y;
+
+        public Vector2(float nx, float ny)
+        {
+            this.x = nx;
+            this.y = ny;
+        }
+    }
+
+    public class Mathf
+    {
+        public static float Clamp(float v, float min, float max)
+        {
+            if (v < min)
+            {
+                v = min;
+            }
+            if (v > max)
+            {
+                v = max;
+            }
+            return v;
+        }
+
+        public static float Exp(float v)
+        {
+            return (float)Math.Exp((double)v);
+        }
+    }
+ }

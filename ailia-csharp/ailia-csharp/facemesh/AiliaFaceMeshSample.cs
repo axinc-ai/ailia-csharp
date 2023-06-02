@@ -6,6 +6,7 @@ using System;
 using System.Drawing;
 
 using ailiaSDK;
+using UnityEngine;
 
 namespace ailia_csharp
 {

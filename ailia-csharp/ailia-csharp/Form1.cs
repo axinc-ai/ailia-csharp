@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using UnityEngine;
+
 namespace ailia_csharp
 {
     public partial class Form1 : Form
