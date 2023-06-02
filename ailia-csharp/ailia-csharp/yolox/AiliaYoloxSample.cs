@@ -15,7 +15,23 @@ namespace ailia_csharp
 {
 	public partial class AiliaYoloxSample
 	{
-		private void Infer(Color32[] camera, Bitmap bmp, int width, int height, int channels, string asset_path)
+		public static string[] COCO_CATEGORY = {
+		"person", "bicycle", "car", "motorcycle", "airplane", "bus", "train",
+		"truck", "boat", "traffic light", "fire hydrant", "stop sign",
+		"parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow",
+		"elephant", "bear", "zebra", "giraffe", "backpack", "umbrella",
+		"handbag", "tie", "suitcase", "frisbee", "skis", "snowboard",
+		"sports ball", "kite", "baseball bat", "baseball glove", "skateboard",
+		"surfboard", "tennis racket", "bottle", "wine glass", "cup", "fork",
+		"knife", "spoon", "bowl", "banana", "apple", "sandwich", "orange",
+		"broccoli", "carrot", "hot dog", "pizza", "donut", "cake", "chair",
+		"couch", "potted plant", "bed", "dining table", "toilet", "tv",
+		"laptop", "mouse", "remote", "keyboard", "cell phone", "microwave",
+		"oven", "toaster", "sink", "refrigerator", "book", "clock", "vase",
+		"scissors", "teddy bear", "hair drier", "toothbrush"
+		};
+
+		public void Infer(Color32[] camera, Bitmap bmp, int width, int height, int channels, string asset_path)
 		{
 			// Initialize ailia instance
 			AiliaDetectorModel ailia_detector = new AiliaDetectorModel();
@@ -71,22 +87,11 @@ namespace ailia_csharp
 			}
 
 			Font fnt = new Font("MS UI Gothic", 20);
-			g.DrawString(""+box.category fnt, Brushes.Blue, x1, t1);
-			RectangleF rect = new RectangleF(x1, y1, x2, y2);
-			g.DrawRectangle(Brushes.White, rect);
-
-			/*
-			for (int y = y1; y < y2; y++)
-			{
-				for (int x = x1; x < x2; x++)
-				{
-					if (y >= 0 && y < tex_height && x >= 0 && x < tex_width)
-					{
-						camera[y * tex_channels * tex_width + x*tex_channels + 2] = 255; // fill red
-					}
-				}
-			}
-			*/
+			g.DrawString(""+ COCO_CATEGORY[box.category] + " " + box.prob, fnt, Brushes.White, x1, y1);
+			Rectangle rect = new Rectangle(x1, y1, x2 - x1, y2 - y1);
+			Pen whitePen = new Pen(Brushes.White);
+			whitePen.Width = 2.0F;
+			g.DrawRectangle(whitePen, rect);
 		}
 	}
 }

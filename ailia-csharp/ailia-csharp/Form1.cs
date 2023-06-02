@@ -122,7 +122,7 @@ namespace ailia_csharp
             pictureBox1.Image = bmp;
 
             AiliaYoloxSample yolox = new AiliaYoloxSample();
-            yolox.Infer(camera, bmp, width, height, channels);
+            yolox.Infer(camera, bmp, bmpData.Width, bmpData.Height, channels, asset_path);
         }
 
         private void label1_Click(object sender, EventArgs e)
