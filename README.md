@@ -16,11 +16,18 @@ Debug.Log, Color32, Vactor2, Mathf are not defined, so define them in [AiriaMigr
 
 - Open `ailia-csharp.sln`.
 - Change active platform `Any CPU` to `x64`.
+
+![active_platform.png](tutorial/active_platform.png)
+
 - Build.
 
 ## Run
 
 - Manually place `ailia.dll` to `/ailia-csharp/ailia-csharp/bin/x64/Debug`.
+- If you are using the evaluation version, place the license file in the same folder as the dll.
+
+![copy_dll.png](tutorial/copy_dll.png)
+
 - `*.onnx` and `*.jpg` are automatically place to `/ailia-csharp/ailia-csharp/bin/x64/Debug` on build process.
 - Run.
 
@@ -30,13 +37,13 @@ Debug.Log, Color32, Vactor2, Mathf are not defined, so define them in [AiriaMigr
 
 Read yolox.jpg and display the inference result of yolox.
 
-![yolox.png](yolox.png)
+![yolox.png](tutorial/yolox.png)
 
 ### facemesh
 
 Read facemesh.jpg and display the inference result of facemesh.
 
-![facemesh.png](facemesh.png)
+![facemesh.png](tutorial/facemesh.png)
 
 ## Architecture
 
