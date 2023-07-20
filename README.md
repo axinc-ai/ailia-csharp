@@ -58,7 +58,7 @@ The inference code is below. Usage is the same as the Unity version.
 - [Form1.cs](/ailia-csharp/ailia-csharp/Form1.cs)
 - [AiliaYoloxSample.cs](/ailia-csharp/ailia-csharp/yolox/AiliaYoloxSample.cs)
 - [AiliaFaceMeshSample.cs](/ailia-csharp/ailia-csharp/facemesh/AiliaFaceMeshSample.cs)
-- [AiliaRealEsrgan.cs](/ailia-csharp/ailia-csharp/real_esrgan/AiliaRealEsrgan.cs)
+- [AiliaRealEsrganSample.cs](/ailia-csharp/ailia-csharp/real_esrgan/AiliaRealEsrganSample.cs)
 
 # Test images
 
