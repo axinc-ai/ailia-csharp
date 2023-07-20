@@ -78,6 +78,7 @@
     <Compile Include="ailia\AiliaModel.cs" />
     <Compile Include="ailia\AiliaPoseEstimator.cs" />
     <Compile Include="ailia\AiliaPoseEstimatorModel.cs" />
+    <Compile Include="real_esrgan\AiliaRealEsrganSample.cs" />
     <Compile Include="facemesh\AiliaBlazeface.cs" />
     <Compile Include="facemesh\AiliaBlazefaceAnchors.cs" />
     <Compile Include="facemesh\AiliaFaceMesh.cs" />
@@ -104,10 +105,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="assets\blazeface.opt.onnx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="assets\facemesh_constantpad2d.opt.onnx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\RealESRGAN.opt.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\RealESRGAN_anime.opt.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="assets\yolox_tiny.opt.onnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -127,6 +134,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\facemesh.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\real_esrgan.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\real_esrgan_anime.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\yolox.jpg">
