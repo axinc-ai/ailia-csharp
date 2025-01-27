@@ -4,7 +4,7 @@
 * @brief AILIA  Unity Compatble Class
 * @author AXELL Corporation
 * @date  May 29, 2023
-* 
+*
 * \~english
 * @file
 * @brief AILIA Unity Compatble Class
@@ -26,10 +26,12 @@ namespace UnityEngine
         {
             Console.WriteLine(text);
         }
-
         public static void LogError(string text)
         {
             Console.WriteLine(text);
+        }
+        public static void Assert (bool condition, object message) {
+            System.Diagnostics.Debug.Assert(condition, message.ToString());
         }
     }
 
