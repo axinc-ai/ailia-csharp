@@ -1,10 +1,11 @@
-﻿/* AILIA C# YOLOX Sample */
+/* AILIA C# YOLOX Sample */
 /* Copyright 2023 AXELL CORPORATION */
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using ailia;
 
 namespace ailia_csharp
 {

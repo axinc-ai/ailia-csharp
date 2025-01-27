@@ -1,0 +1,3 @@
+[submodule "ailia-csharp/ailia-csharp/ailia/ailia-sdk-unity"]
+	path = ailia-csharp/ailia-csharp/ailia/ailia-sdk-unity
+	url = https://github.com/axinc-ai/ailia-sdk-unity.git

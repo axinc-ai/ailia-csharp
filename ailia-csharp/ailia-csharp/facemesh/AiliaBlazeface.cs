@@ -1,4 +1,4 @@
-﻿/* AILIA Unity Plugin Blazeface Sample */
+/* AILIA Unity Plugin Blazeface Sample */
 /* Copyright 2022 AXELL CORPORATION */
 
 using System.Collections;
@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using ailia;
 
 using UnityEngine;
 
