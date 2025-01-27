@@ -1,4 +1,4 @@
-﻿/* AILIA Unity Plugin FaceMesh Sample */
+/* AILIA Unity Plugin FaceMesh Sample */
 /* Copyright 2022 AXELL CORPORATION */
 
 using System.Collections;
@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 using UnityEngine;
+using ailia;
 
 namespace ailiaSDK
 {
